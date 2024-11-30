@@ -23,7 +23,7 @@ export default function SongList({ songs, onSongSelect }) {
       setCurrentIndex((prevIndex) =>
         prevIndex === 0 ? songs.length - 1 : prevIndex - 1
       );
-    } else if (e.key === "ArrowUp") {
+    } else if (e.key === "Enter") {
       onSongSelect(songs[currentIndex]); // Set the selected song
       playSound(); // Play the sound
     }
