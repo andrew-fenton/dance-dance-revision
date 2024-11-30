@@ -1,12 +1,22 @@
-import react from "react";
-import { useState } from "react"
+// pages/song-select.js
+import { useRouter } from 'next/router';
+import SongList from '../components/SongList';
+import songs from '../data/songs';
 
-// select songs to play
-const Select = () => {
-    const [songs, setSongs] = useState([]);
+export default function SongSelect() {
+  const router = useRouter();
 
-    return (
-        <h2>Select Songs</h2>
-        // TODO: Songlists
-    )
+  const handleSongSelect = (song) => {
+    router.push({
+      pathname: '/gameNoWebcamScreen',
+      query: { songId: song.id },
+    });
+  };
+
+  return (
+    <div>
+      <h1>Select a Song</h1>
+      <SongList songs={songs} onSongSelect={handleSongSelect} />
+    </div>
+  );
 }
