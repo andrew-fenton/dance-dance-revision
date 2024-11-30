@@ -5,27 +5,30 @@ import { Howl } from 'howler';
 import styles from '../styles/GameNoWebcam.module.css';
 import Image from 'next/image';
 
-function Game({ song }) {
+function GameNoWebcam({ song }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [score, setScore] = useState(0);
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
+  const [inputs, setInputs] = useState([]);
 
+  // Load the mapping data for the selected song
   useEffect(() => {
     async function loadMapping() {
       const mappingModule = await import(`../data/mappings/${song.id}.js`);
-      setMapping(mappingModule.default);
+      const initialMapping = mappingModule.default.map((item) => ({
+        ...item,
+        hit: false,
+      }));
+      setMapping(initialMapping);
     }
     loadMapping();
   }, [song.id]);
 
+  // useEffect, starts the SOUND
   useEffect(() => {
-    if (mapping.length === 0) {
-        return;
-    }
-
     const sound = new Howl({
       src: [song.file],
       html5: true,
@@ -57,27 +60,51 @@ function Game({ song }) {
     }
   }, [paused]);
 
+  // Handle key presses
   const handleKeyPress = (event) => {
     const key = event.key.toUpperCase();
-
-    // If space bar, pause the game if unpaused and unpause if paused
     if (key === ' ') {
-        setPaused((prevPaused) => !prevPaused);
-        return;
+      // Spacebar toggles pause
+      setPaused((prevPaused) => !prevPaused);
+      return;
     }
 
-    // If it's paused, just ignore everything
-    if (paused && key !== ' ') {
-        return;
+    if (paused) {
+      // Ignore other key presses when paused
+      return;
     }
 
-    const buffer = 0.5;
-    const currentMappings = mapping.filter(
-      (m) => Math.abs(m.time - currentTime) < buffer && m.action === key
+    // Map arrow keys to actions
+    let action = '';
+    if (key === 'W') action = 'UP';
+    else if (key === 'S') action = 'DOWN';
+    else if (key === 'A') action = 'LEFT';
+    else if (key === 'D') action = 'RIGHT';
+    else return; // Ignore other keys
+
+    // Record the input
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      { time: currentTime.toFixed(2), action },
+    ]);
+
+    // Check for matching mapping
+    const buffer = 0.5; // Adjust as needed
+    const matchedIndex = mapping.findIndex(
+      (m) =>
+        Math.abs(m.time - currentTime) < buffer &&
+        m.action === action &&
+        !m.hit // Ensure the mapping hasn't been matched yet
     );
-    if (currentMappings.length > 0) {
+
+    if (matchedIndex !== -1) {
       setScore((prevScore) => prevScore + 10);
-      // Optionally remove the matched mapping to prevent multiple counts
+      // Mark this mapping as hit -> This is currently problematic
+      // setMapping((prevMapping) => {
+      //   const newMapping = [...prevMapping];
+      //   newMapping[matchedIndex].hit = true;
+      //   return newMapping;
+      // });
     }
   };
 
@@ -86,7 +113,7 @@ function Game({ song }) {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [currentTime, mapping]);
+  }, [currentTime, mapping, paused]);
 
   return (
     <div className={styles.gameContainer}>
@@ -102,6 +129,17 @@ function Game({ song }) {
           />
         ))}
       </div>
+      {/* Display the inputs list */}
+      <div className={styles.inputsList}>
+        <h3>Inputs:</h3>
+        <ul>
+          {inputs.map((input, index) => (
+            <li key={index}>
+              {input.time} - {input.action}
+            </li>
+          ))}
+        </ul>
+      </div>
       <img src="/assets/patrick.gif" alt="PATRICK VIBIN"></img>
       <img src="/assets/carlton.gif" alt="CARLTON VIBIN"></img>
       <img src="/assets/gwimbly.gif" alt="GWIMBLY VIBIN"></img>
@@ -113,4 +151,4 @@ function Game({ song }) {
   );
 }
 
-export default Game;
+export default GameNoWebcam;

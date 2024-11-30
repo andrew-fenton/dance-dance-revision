@@ -1,10 +1,27 @@
 import Head from "next/head";
-import Image from "next/image";
-import localFont from "next/font/local";
-import styles from "@/styles/Home.module.css";
-import Link from "next/link";
+import styles from "@/styles/HomeScreen.module.css";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        router.push("/select");
+      }
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener("keydown", handleKeyPress);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [router]);
+
   return (
     <>
       <Head>
@@ -13,6 +30,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className={styles.homeScreen}>
+        <h1 className={styles.title}>Dance Dance Revolution</h1>
+        <p className={styles.instruction}>Press Enter to Begin</p>
+      </div>
     </>
   );
 }
