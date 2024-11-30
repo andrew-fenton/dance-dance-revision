@@ -1,0 +1,36 @@
+.homeScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.flash {
+  background-color: rgb(195, 12, 79); /* Flash color */
+  color: black; /* Optional: Change text color during flash */
+}
+
+.title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.instruction {
+  font-size: 4rem;
+  margin: 0;
+  animation: flash 4s infinite;
+}
+
+@keyframes flash {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,31 @@
+// Cha-cha real smooth!
+const mapping = [
+  { time: 1.41, action: 'RIGHT' },
+  { time: 2.46, action: 'RIGHT' },
+  { time: 3.42, action: 'LEFT' },
+  { time: 4.41, action: 'LEFT' },
+  { time: 5.36, action: 'UP' },
+  { time: 7.31, action: 'UP' },
+  { time: 8.31, action: 'DOWN' },
+  { time: 9.76, action: 'UP' },
+  { time: 10.75, action: 'UP' },
+  { time: 11.76, action: 'UP' },
+  { time: 12.76, action: 'UP' },
+  { time: 13.76, action: 'RIGHT' },
+  { time: 14.70, action: 'RIGHT' },
+  { time: 15.66, action: 'LEFT' },
+  { time: 16.71, action: 'LEFT' },
+  { time: 18.65, action: 'LEFT' },
+  { time: 20.16, action: 'RIGHT' },
+  { time: 23.10, action: 'UP' },
+  { time: 25.06, action: 'RIGHT' },
+  { time: 27.01, action: 'LEFT' },
+  { time: 28.96, action: 'RIGHT' },
+  { time: 29.46, action: 'UP' },
+  { time: 29.96, action: 'LEFT' },
+  { time: 30.91, action: 'DOWN' },
+  { time: 31.46, action: 'RIGHT' },
+  { time: 31.90, action: 'LEFT' },
+];
+
+export default mapping;
