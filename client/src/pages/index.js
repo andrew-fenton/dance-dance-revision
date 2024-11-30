@@ -6,9 +6,19 @@ import { useRouter } from "next/router";
 export default function Home() {
   const router = useRouter();
 
+  const playSound = () => {
+    const audio = new Audio("/songs/buttonclick.wav"); // Ensure the sound file path is correct
+    audio.currentTime = 0; // Reset the sound to start
+    audio
+      .play()
+      .then(() => console.log("Sound played successfully"))
+      .catch((error) => console.error("Audio playback failed:", error));
+  };
+
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === "Enter") {
+        playSound();
         router.push("/select");
       }
     };
