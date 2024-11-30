@@ -10,7 +10,7 @@ function GameNoWebcam({ song }) {
   const [score, setScore] = useState(0);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
-  // const [inputs, setInputs] = useState([]); mainly for debugging
+  const [inputs, setInputs] = useState([]); // mainly for debugging
 
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
@@ -73,11 +73,11 @@ function GameNoWebcam({ song }) {
     else if (key === 'ARROWRIGHT' || key === 'D') action = 'RIGHT';
     else return; // Ignore other keys
 
-    // Record the input
-    // setInputs((prevInputs) => [
-    //   ...prevInputs,
-    //   { time: currentTime.toFixed(2), action },
-    // ]);
+    //Record the input
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      { time: currentTime.toFixed(2), action },
+    ]);
 
     // Check for matching mapping
     const buffer = 0.5; // Adjust as needed
@@ -147,7 +147,7 @@ function GameNoWebcam({ song }) {
       <Score score={score} />
       <p>Current Time: {currentTime.toFixed(2)}</p>
       {/* Display the inputs list */}
-      {/* <div className={styles.inputsList}>
+      <div className={styles.inputsList}>
         <h3>Inputs:</h3>
         <ul>
           {inputs.map((input, index) => (
@@ -156,7 +156,7 @@ function GameNoWebcam({ song }) {
             </li>
           ))}
         </ul>
-      </div> */}
+      </div>
       {/* Pause overlay */}
       {paused && <div className={styles.pauseOverlay}>Paused</div>}
     </div>
