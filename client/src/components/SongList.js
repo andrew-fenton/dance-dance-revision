@@ -6,6 +6,16 @@ import songs from "@/data/songs";
 export default function SongList({ songs, onSongSelect }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Play sound function
+  const playSound = () => {
+    const audio = new Audio("/songs/buttonclick.wav"); // Ensure the file path is correct
+    audio.currentTime = 0; // Reset the sound to start
+    audio
+      .play()
+      .then(() => console.log("Sound played successfully"))
+      .catch((error) => console.error("Audio playback failed:", error));
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % songs.length);
@@ -15,6 +25,7 @@ export default function SongList({ songs, onSongSelect }) {
       );
     } else if (e.key === "ArrowUp") {
       onSongSelect(songs[currentIndex]); // Set the selected song
+      playSound(); // Play the sound
     }
   };
 

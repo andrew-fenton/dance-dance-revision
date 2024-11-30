@@ -73,11 +73,11 @@ function GameNoWebcam({ song }) {
     else if (key === 'ARROWRIGHT' || key === 'D') action = 'RIGHT';
     else return; // Ignore other keys
 
-    //Record the input
-    setInputs((prevInputs) => [
-      ...prevInputs,
-      { time: currentTime.toFixed(2), action },
-    ]);
+    // //Record the input
+    // setInputs((prevInputs) => [
+    //   ...prevInputs,
+    //   { time: currentTime.toFixed(2), action },
+    // ]);
 
     // Check for matching mapping
     const buffer = 0.5; // Adjust as needed
@@ -145,9 +145,9 @@ function GameNoWebcam({ song }) {
 
       {/* Other components like Score, Inputs, etc. */}
       <Score score={score} />
-      <p>Current Time: {currentTime.toFixed(2)}</p>
+      {/* <p>Current Time: {currentTime.toFixed(2)}</p> */}
       {/* Display the inputs list */}
-      <div className={styles.inputsList}>
+      {/* <div className={styles.inputsList}>
         <h3>Inputs:</h3>
         <ul>
           {inputs.map((input, index) => (
@@ -156,7 +156,7 @@ function GameNoWebcam({ song }) {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
       {/* Pause overlay */}
       {paused && <div className={styles.pauseOverlay}>Paused</div>}
     </div>
