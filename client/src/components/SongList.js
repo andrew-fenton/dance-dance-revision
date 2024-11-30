@@ -36,7 +36,7 @@ export default function SongList({ songs, onSongSelect }) {
 
   return (
     <div className={styles.selectSongScreen}>
-      <h1 className={styles.title}>Select your song with Up</h1>
+      <h1 className={styles.title}>Pick your song with Enter</h1>
       <div className={styles.slider}>
         {songs.map((song, index) => (
           <div
