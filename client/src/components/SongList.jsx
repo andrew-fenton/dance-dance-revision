@@ -43,7 +43,6 @@ export default function SelectSongScreen() {
   // Otherwise, display the SelectSongScreen
   return (
     <div className={styles.selectSongScreen}>
-      <h1 className={styles.title}>Dance Dance Revolution</h1>
       <div className={styles.slider}>
         {songs.map((song, index) => (
           <div

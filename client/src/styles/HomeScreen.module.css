@@ -1,12 +1,14 @@
 .homeScreen {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  font-family: 'Orbitron', sans-serif;
-  text-align: center;
-  margin: 0;
-  position: relative;
+}
+
+.flash {
+  background-color: rgb(195, 12, 79); /* Flash color */
+  color: black; /* Optional: Change text color during flash */
 }
 
 .title {
