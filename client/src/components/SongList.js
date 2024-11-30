@@ -1,42 +1,79 @@
-// components/SongList.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "@/styles/SelectScreen.module.css";
 import songs from "@/data/songs";
 
 export default function SongList({ songs, onSongSelect }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const backgroundMusicRef = useRef(null); // Ref to manage background music
 
   // Play sound function
-  const playSound = () => {
-    const audio = new Audio("/songs/buttonclick.wav"); // Ensure the file path is correct
+  const playSound = (soundPath) => {
+    const audio = new Audio(soundPath);
     audio.currentTime = 0; // Reset the sound to start
     audio
       .play()
-      .then(() => console.log("Sound played successfully"))
-      .catch((error) => console.error("Audio playback failed:", error));
+      .then(() => console.log(`${soundPath} played successfully`))
+      .catch((error) =>
+        console.error(`Error playing ${soundPath}:`, error)
+      );
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % songs.length);
+      setCurrentIndex((prevIndex) => {
+        const newIndex = (prevIndex + 1) % songs.length;
+        playSound("/songs/switch.wav"); // Play switch sound
+        return newIndex;
+      });
     } else if (e.key === "ArrowLeft") {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? songs.length - 1 : prevIndex - 1
-      );
+      setCurrentIndex((prevIndex) => {
+        const newIndex = prevIndex === 0 ? songs.length - 1 : prevIndex - 1;
+        playSound("/songs/switch.wav"); // Play switch sound
+        return newIndex;
+      });
     } else if (e.key === "Enter") {
       onSongSelect(songs[currentIndex]); // Set the selected song
-      playSound(); // Play the sound
+      playSound("/songs/buttonclick.wav"); // Play the button click sound
+
+      // Stop background music when navigating away
+      if (backgroundMusicRef.current) {
+        backgroundMusicRef.current.pause();
+        backgroundMusicRef.current.currentTime = 0;
+      }
     }
   };
 
+  // Play background music on mount
+  useEffect(() => {
+    const backgroundMusic = new Audio("/songs/SelectTheme.mp3");
+    backgroundMusic.loop = true; // Enable looping
+    backgroundMusic.volume = 0.5; // Adjust volume
+    backgroundMusic
+      .play()
+      .then(() => console.log("Background music playing"))
+      .catch((error) =>
+        console.error("Background music playback failed:", error)
+      );
+
+    backgroundMusicRef.current = backgroundMusic;
+
+    // Cleanup: Stop background music on unmount
+    return () => {
+      if (backgroundMusicRef.current) {
+        backgroundMusicRef.current.pause();
+        backgroundMusicRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  // Attach keydown event listener
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex]);
+  }, [currentIndex]); // Add dependency to re-attach handler if currentIndex changes
 
   return (
     <div className={styles.selectSongScreen}>
-      <h1 className={styles.title}>Pick your song with Enter</h1>
       <div className={styles.slider}>
         {songs.map((song, index) => (
           <div
@@ -73,18 +110,5 @@ export default function SongList({ songs, onSongSelect }) {
         ))}
       </div>
     </div>
-    // <ul className={styles.songList}>
-    //   {songs.map((song) => (
-    //     <li key={song.id} className={styles.songItem}>
-    //       <button onClick={() => {
-    //         onSongSelect(song)
-    //         console.log(song);
-    //         }}>
-    //         {song.title} - {song.artist}
-    //       </button>
-    //     </li>
-    //   ))}
-    // </ul>
-    
   );
 }
