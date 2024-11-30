@@ -3,16 +3,17 @@ import Arrow from './Arrow';
 import Score from './Score';
 import { Howl } from 'howler';
 import styles from '../styles/GameNoWebcam.module.css';
-import Image from 'next/image';
+import GameCanvas from './GameCanvas';
 
 function GameNoWebcam({ song }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [score, setScore] = useState(0);
-  const gameInterval = useRef(null);
-  const soundRef = useRef(null);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
-  const [inputs, setInputs] = useState([]);
+  // const [inputs, setInputs] = useState([]); mainly for debugging
+
+  const gameInterval = useRef(null);
+  const soundRef = useRef(null);
 
   // Load the mapping data for the selected song
   useEffect(() => {
@@ -27,7 +28,7 @@ function GameNoWebcam({ song }) {
     loadMapping();
   }, [song.id]);
 
-  // useEffect, starts the SOUND
+  // Start the sound and update currentTime
   useEffect(() => {
     const sound = new Howl({
       src: [song.file],
@@ -38,31 +39,21 @@ function GameNoWebcam({ song }) {
     sound.play();
 
     gameInterval.current = setInterval(() => {
-        if (!paused) {
-            setCurrentTime(sound.seek());
-        }
+      if (!paused) {
+        setCurrentTime(sound.seek());
+      }
     }, 50);
 
     return () => {
       clearInterval(gameInterval.current);
       sound.stop();
     };
-  }, [mapping]);
-
-  // useEffect, handle pausing and unpausing the game
-  useEffect(() => {
-    if (paused) {
-        soundRef.current.pause();
-    } else {
-        if (soundRef.current) {
-            soundRef.current.play();
-        }
-    }
-  }, [paused]);
+  }, [song]);
 
   // Handle key presses
   const handleKeyPress = (event) => {
     const key = event.key.toUpperCase();
+
     if (key === ' ') {
       // Spacebar toggles pause
       setPaused((prevPaused) => !prevPaused);
@@ -74,19 +65,19 @@ function GameNoWebcam({ song }) {
       return;
     }
 
-    // Map arrow keys to actions
+    // Map keys to actions
     let action = '';
-    if (key === 'W') action = 'UP';
-    else if (key === 'S') action = 'DOWN';
-    else if (key === 'A') action = 'LEFT';
-    else if (key === 'D') action = 'RIGHT';
+    if (key === 'ARROWLEFT' || key === 'A') action = 'LEFT';
+    else if (key === 'ARROWUP' || key === 'W') action = 'UP';
+    else if (key === 'ARROWDOWN' || key === 'S') action = 'DOWN';
+    else if (key === 'ARROWRIGHT' || key === 'D') action = 'RIGHT';
     else return; // Ignore other keys
 
     // Record the input
-    setInputs((prevInputs) => [
-      ...prevInputs,
-      { time: currentTime.toFixed(2), action },
-    ]);
+    // setInputs((prevInputs) => [
+    //   ...prevInputs,
+    //   { time: currentTime.toFixed(2), action },
+    // ]);
 
     // Check for matching mapping
     const buffer = 0.5; // Adjust as needed
@@ -99,15 +90,16 @@ function GameNoWebcam({ song }) {
 
     if (matchedIndex !== -1) {
       setScore((prevScore) => prevScore + 10);
-      // Mark this mapping as hit -> This is currently problematic
-      // setMapping((prevMapping) => {
-      //   const newMapping = [...prevMapping];
-      //   newMapping[matchedIndex].hit = true;
-      //   return newMapping;
-      // });
+      // Mark this mapping as hit
+      setMapping((prevMapping) => {
+        const newMapping = [...prevMapping];
+        newMapping[matchedIndex].hit = true;
+        return newMapping;
+      });
     }
   };
 
+  // Add event listener for key presses
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
@@ -115,11 +107,26 @@ function GameNoWebcam({ song }) {
     };
   }, [currentTime, mapping, paused]);
 
+  // Ensure mapping is loaded before rendering
+  if (!mapping.length) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    <>
     <div className={styles.gameContainer}>
-      <Score score={score} />
-      <p>{currentTime}</p>
-      <div className={styles.arrows}>
+      {/* Arrow outlines at the top */}
+      <div className={styles.arrowOutlines}>
+        <img src="/arrows/outline-left.png" alt="Left Outline" />
+        <img src="/arrows/outline-up.png" alt="Up Outline" />
+        <img src="/arrows/outline-down.png" alt="Down Outline" />
+        <img src="/arrows/outline-right.png" alt="Right Outline" />
+      </div>
+
+      {/* Render arrows */}
+      <div>
+      <GameCanvas song={song} mapping={mapping} currentTime={currentTime} />
+      {/* <div className={styles.arrowsContainer}>
         {mapping.map((m, index) => (
           <Arrow
             key={index}
@@ -128,9 +135,19 @@ function GameNoWebcam({ song }) {
             currentTime={currentTime}
           />
         ))}
-      </div>
+      </div> */}
+    </div>
+  </div>
+
+
+    <div>
+    
+
+      {/* Other components like Score, Inputs, etc. */}
+      <Score score={score} />
+      <p>Current Time: {currentTime.toFixed(2)}</p>
       {/* Display the inputs list */}
-      <div className={styles.inputsList}>
+      {/* <div className={styles.inputsList}>
         <h3>Inputs:</h3>
         <ul>
           {inputs.map((input, index) => (
@@ -139,15 +156,11 @@ function GameNoWebcam({ song }) {
             </li>
           ))}
         </ul>
-      </div>
-      <img src="/assets/patrick.gif" alt="PATRICK VIBIN"></img>
-      <img src="/assets/carlton.gif" alt="CARLTON VIBIN"></img>
-      <img src="/assets/gwimbly.gif" alt="GWIMBLY VIBIN"></img>
-      <img src="/assets/lebron-james-dancing.gif" alt="LEBRON VIBIN"></img>
-      <img src="/assets/peanutsvibin.gif" alt="PEANUTS VIBIN"></img>
-      <img src="/assets/skeleton-meme.gif" alt="SKELETON VIBIN"></img>
-      <img src="/assets/winnie-the.gif" alt="WINNIE VIBIN"></img>
+      </div> */}
+      {/* Pause overlay */}
+      {paused && <div className={styles.pauseOverlay}>Paused</div>}
     </div>
+    </>
   );
 }
 

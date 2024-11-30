@@ -1,0 +1,52 @@
+/* styles/GameNoWebcam.module.css */
+.gameContainer {
+  position: relative;
+  width: 400px; /* Adjust as needed */
+  height: 600px; /* Adjust as needed */
+  margin: 0 auto;
+  background-color: black;
+  overflow: hidden;
+}
+
+.arrowOutlines {
+  position: absolute;
+  bottom: 6%;
+  left: 3%;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 7px; /* Adjust spacing */
+}
+
+.arrowOutlines img {
+  width: 50px; /* Adjust size */
+  height: 50px;
+}
+
+.arrowsContainer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* styles/Arrow.module.css */
+.arrow {
+  position: absolute;
+  bottom: -100px; /* Start below the visible area */
+  width: 50px; /* Adjust size as needed */
+  height: 50px;
+  animation-name: moveUp;
+  animation-duration: 5s; /* Match the duration in the Arrow component */
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveUp {
+  0% {
+    bottom: -100px;
+  }
+  100% {
+    bottom: calc(100% + 100px); /* Move past the top */
+  }
+}

@@ -1,0 +1,22 @@
+/* styles/Arrow.module.css */
+.arrow {
+    position: absolute;
+    bottom: -100px; /* Start below the visible area */
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    animation-name: moveUp;
+    animation-duration: 5s; /* Match the duration in the Arrow component */
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    z-index: 50; /* Make sure the arrows are on top */
+  }
+  
+  @keyframes moveUp {
+    0% {
+      bottom: -100px;
+    }
+    100% {
+      bottom: calc(100% + 100px); /* Move past the top */
+    }
+  }
+  
