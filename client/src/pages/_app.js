@@ -1,7 +1,5 @@
 import "@/styles/globals.css";
 import { Orbitron } from 'next/font/google';
-import HomeScreen from "./api/HomeScreen";
-import SelectScreen from "./api/SelectScreen";
 
 const orbitron = Orbitron({
   subsets: ['latin']
