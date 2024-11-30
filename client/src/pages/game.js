@@ -1,6 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const Webcam = dynamic(() => import('../components/webcam.js'), { ssr: false });
+import Webcam from '../components/webcam.js';
 
 export default function Game() {
   return (
