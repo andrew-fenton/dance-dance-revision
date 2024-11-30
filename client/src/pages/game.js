@@ -1,3 +1,4 @@
+import Webcam from '../components/webcam.js';
 import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
@@ -13,6 +14,7 @@ export default function Game() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Webcam/>
       <p>Game</p>
     </>
   );
