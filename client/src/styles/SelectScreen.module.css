@@ -1,0 +1,50 @@
+.selectSongScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    margin: 0;
+    position: relative;
+  }
+  
+  .title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .song {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .song img {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .songName {
+    font-size: 2rem;
+    margin: 5px 0;
+  }
+  
+  .difficulty {
+    font-size: 1.5rem;
+    color: #ff6347;
+    margin: 5px 0;
+  }
+  
