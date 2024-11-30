@@ -1,9 +1,14 @@
 // data/songs.js
 const songs = [
     {
-      id: 'song3',
+      id: 'cha-cha',
       title: 'Cha Cha Slide',
-      file: '/songs/song3.mp3',
+      file: '/songs/cha-cha.mp3',
+    },
+    {
+        id: 'gangnam-style',
+        title: 'Gangnam Style',
+        file: '/songs/gangnam-style.mp3',
     }
   ];
   
