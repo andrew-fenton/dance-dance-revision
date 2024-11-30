@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import detectPose from '../controllers/pose_detection';
-//import {} from '@mediapipe/drawing_utils';
-//import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision'
 import Webcam from 'react-webcam';
 
 function WebcamVision() {
