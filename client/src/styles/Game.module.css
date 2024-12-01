@@ -1,14 +1,47 @@
-.mainContainer {
+.container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.webcamContainer {
+  flex: 1; /* Take up half of the screen */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.contentContainer {
+.webcam {
+  max-width: 100%; /* Ensure the webcam video is responsive */
+  max-height: 100%;
+}
+
+.gameContainer {
+  flex: 1; /* Take up the other half of the screen */
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.webcamContainer {
-  margin-right: "160px";
+.countdownContainer {
+  position: fixed; /* Overlay the countdown on top of everything */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 72px; /* Large font size */
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+.loadingGif {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust spacing below the countdown text */
+  max-width: 400px; /* Increase the width to make it larger */
+  max-height: 400px; /* Increase the height to match */
+  width: 100%; /* Ensure responsiveness */
+  height: auto; /* Maintain aspect ratio */
 }
