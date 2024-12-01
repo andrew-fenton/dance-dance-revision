@@ -58,4 +58,11 @@
   margin-top: 5px;
 }
 
-  
+.crowdCheer {
+  width: 100%;
+  position: absolute;
+  bottom: -20%; /* Anchor at the bottom */
+  max-height: 400px; /* Specify desired visible height */
+  object-fit: cover; /* Ensure image fills the container */
+  overflow: hidden;
+}
