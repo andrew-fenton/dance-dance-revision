@@ -15,6 +15,7 @@ function GameNoWebcam({ song }) {
     down: false,
     right: false,
   });
+  const [inputs, setInputs] = useState([]); // mainly for debugging
 
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
@@ -77,6 +78,12 @@ function GameNoWebcam({ song }) {
     else if (key === "ARROWRIGHT" || key === "D") action = "right";
     else return; // Ignore other keys
 
+    // //Record the input
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      { time: currentTime.toFixed(2), action },
+    ]);
+
     // Activate the corresponding arrow image
     setActiveArrows((prevArrows) => ({
       ...prevArrows,
@@ -128,6 +135,8 @@ function GameNoWebcam({ song }) {
     <>
       <div className={styles.gameContainer}>
         {/* Arrow outlines at the top */}
+              {/* Display the inputs list */}
+        
         <div className={styles.arrowOutlines}>
           <img
             src={
@@ -176,6 +185,16 @@ function GameNoWebcam({ song }) {
       <div>
         {/* Other components like Score */}
         <Score score={score} />
+        <div className={styles.inputsList}>
+          <h3>Inputs:</h3>
+          <ul>
+            {inputs.map((input, index) => (
+              <li key={index}>
+                {input.time} - {input.action}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* Pause overlay */}
         {paused && <div className={styles.pauseOverlay}>Paused</div>}
