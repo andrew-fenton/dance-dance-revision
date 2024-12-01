@@ -26,6 +26,12 @@ const mapping = [
   { time: 30.91, action: 'DOWN' },
   { time: 31.46, action: 'RIGHT' },
   { time: 31.90, action: 'LEFT' },
+  { time: 34.39, action: 'LEFT' },
+  { time: 35.92, action: 'RIGHT' },
+  { time: 38.92, action: 'UP' },
+  { time: 40.80, action: 'RIGHT' },
+  { time: 42.69, action: 'LEFT' },
+  { time: 44.69, action: 'UP' },
 ];
 
 export default mapping;
