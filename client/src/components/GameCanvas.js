@@ -1,9 +1,16 @@
 import { useEffect, useRef } from "react";
 
-function GameCanvas({ song, mapping, currentTime }) {
+function GameCanvas({ song, mapping, currentTime, currentMovement, setScore}) {
   const canvasRef = useRef(null);
   const imagesRef = useRef({});
   const animationRef = useRef(null);
+
+  const MOVEMENT_IDX_MAP = {
+    "LEFT": 0,
+    "RIGHT": 1,
+    "UP": 2,
+    "DOWN": 3,
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,8 +41,13 @@ function GameCanvas({ song, mapping, currentTime }) {
           const timeDifference = m.time - currentTime;
           if (timeDifference < -0.5 || timeDifference > duration) return;
 
-          const position =
-            ((duration - timeDifference) / duration) * (canvas.height - 100);
+          const percentComplete = ((duration - timeDifference) / duration);
+          if (percentComplete > 0.95 && currentMovement[MOVEMENT_IDX_MAP[m.action]] && !m.hit) {
+            m.hit = true;
+            setScore((prevScore) => prevScore + 10);
+          }
+
+          const position = percentComplete * (canvas.height - 100);
 
           const img = imagesRef.current[m.action.toLowerCase()];
           const index = arrows.indexOf(m.action.toLowerCase());
