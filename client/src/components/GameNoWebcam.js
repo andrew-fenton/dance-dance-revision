@@ -4,9 +4,8 @@ import styles from "../styles/GameNoWebcam.module.css";
 import GameCanvas from "./GameCanvas";
 import Score from "./Score";
 
-function GameNoWebcam({ song }) {
+function GameNoWebcam({ song, score, setScore, currentMovement}) {
   const [currentTime, setCurrentTime] = useState(0);
-  const [score, setScore] = useState(0);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
   const [activeArrows, setActiveArrows] = useState({
@@ -209,6 +208,8 @@ function GameNoWebcam({ song }) {
             song={song}
             mapping={mapping}
             currentTime={currentTime}
+            currentMovement={currentMovement}
+            setScore={setScore}
           />
         </div>
       </div>
