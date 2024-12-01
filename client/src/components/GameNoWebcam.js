@@ -5,9 +5,8 @@ import { Howl } from 'howler';
 import styles from '../styles/GameNoWebcam.module.css';
 import GameCanvas from './GameCanvas';
 
-function GameNoWebcam({ song }) {
+function GameNoWebcam({ song, score, setScore, currentMovement }) {
   const [currentTime, setCurrentTime] = useState(0);
-  const [score, setScore] = useState(0);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
   const [inputs, setInputs] = useState([]); // mainly for debugging
@@ -78,6 +77,13 @@ function GameNoWebcam({ song }) {
     //   ...prevInputs,
     //   { time: currentTime.toFixed(2), action },
     // ]);
+    
+    const MOVEMENT_IDX_MAP = {
+      "LEFT": 0,
+      "RIGHT": 1,
+      "UP": 2,
+      "DOWN": 3,
+    }
 
     // Check for matching mapping
     const buffer = 0.5; // Adjust as needed
@@ -125,7 +131,7 @@ function GameNoWebcam({ song }) {
 
       {/* Render arrows */}
       <div>
-      <GameCanvas song={song} mapping={mapping} currentTime={currentTime} />
+      <GameCanvas song={song} mapping={mapping} currentTime={currentTime} currentMovement={currentMovement} setScore={setScore} />
       {/* <div className={styles.arrowsContainer}>
         {mapping.map((m, index) => (
           <Arrow

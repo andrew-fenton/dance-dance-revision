@@ -12,6 +12,7 @@ const GameNoWebcamScreen = () => {
 
     // [left, right, up, down]
     const [currentMovement, setCurrentMovement] = useState([false, false, false, false]);
+    const [score, setScore] = useState(0);
     
     useEffect(() => {
         // Ensure songId is available (router.query may be undefined initially)
@@ -34,7 +35,7 @@ const GameNoWebcamScreen = () => {
         <div>
             <h1>Now Playing: {songData.title}</h1>
             <div className={styles.contentContainer}>
-              <GameNoWebcam song={songData} />
+              <GameNoWebcam song={songData} setScore={setScore} score={score} currentMovement={currentMovement} />
             </div>
             <div className={styles.contentContainer}>
               <WebcamVision
