@@ -22,7 +22,7 @@ const BODYPART_MAP = {
 const LEFT_BUFFER = 0.15;
 const RIGHT_BUFFER = 0.15;
 const UP_BUFFER = 0.075;
-const DOWN_BUFFER = 0.20;
+const DOWN_BUFFER = 0.19;
 
 
 /**
