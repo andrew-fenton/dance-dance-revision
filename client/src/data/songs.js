@@ -24,14 +24,14 @@ const songs = [
     {
       id: "shakeitoff",
       title: "Shake It Off",
-      file: "/songs/shakeitoff.mp3",
+      file: "/songs/shakeitoff.m4a",
       photo: "https://pyxis.nymag.com/v1/imgs/2d9/6f5/3f8dbd63613637b7843e4653ff548503b9-tay--.w710.jpg",
       difficulty: "Medium"
     },
     {
       id: "ymca",
       title: "YMCA",
-      file: "/songs/ymca.mp3",
+      file: "/songs/ymca.m4a",
       photo: "https://i.scdn.co/image/ab67616d0000b273dbf223dbb6abdffa642eb287",
       difficulty: "Medium"
     },

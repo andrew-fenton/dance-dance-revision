@@ -92,6 +92,20 @@ const mapping = [
   { time: 57.59, action: 'RIGHT' },
   { time: 58.03, action: 'LEFT' },
   { time: 58.43, action: 'DOWN' },
+  { time: 23.89, action: 'LEFT' },
+  { time: 24.19, action: 'LEFT' },
+  { time: 61.89, action: 'DOWN' },
+  { time: 61.99, action: 'DOWN' },
+  { time: 63.93, action: 'RIGHT' },
+  { time: 64.39, action: 'LEFT' },
+  { time: 64.19, action: 'RIGHT' },
+  { time: 65.23, action: 'LEFT' },
+  { time: 65.69, action: 'UP' },
+  { time: 66.39, action: 'UP' },
+  { time: 66.89, action: 'UP' },
+  { time: 67.48, action: 'RIGHT' },
+  { time: 68.44, action: 'LEFT' },
+  { time: 69.33, action: 'DOWN' }
 ];
 
 export default mapping;
