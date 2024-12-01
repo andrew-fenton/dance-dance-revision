@@ -17,6 +17,10 @@ function GameNoWebcam({ song }) {
   });
   const [inputs, setInputs] = useState([]); // mainly for debugging
 
+  // This is the countdown for the game starting
+  const [countdown, setCountdown] = useState(5);
+  const [gameStarted, setGameStarted] = useState(false);
+
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
 
@@ -33,8 +37,24 @@ function GameNoWebcam({ song }) {
     loadMapping();
   }, [song.id]);
 
+  // Countdown before starting the game
+  useEffect(() => {
+    if (countdown > 0) {
+      const timerId = setTimeout(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+      return () => clearTimeout(timerId);
+    } else {
+      setGameStarted(true);
+    }
+  }, [countdown]);
+
   // Start the sound and update currentTime
   useEffect(() => {
+    if (!gameStarted) {
+      return;
+    }
+
     const sound = new Howl({
       src: [song.file],
       html5: true,
@@ -53,7 +73,7 @@ function GameNoWebcam({ song }) {
       clearInterval(gameInterval.current);
       sound.stop();
     };
-  }, [song]);
+  }, [song, gameStarted]);
 
   // Handle key presses
   const handleKeyPress = (event) => {
@@ -65,7 +85,7 @@ function GameNoWebcam({ song }) {
       return;
     }
 
-    if (paused) {
+    if (paused || !gameStarted) {
       // Ignore other key presses when paused
       return;
     }
@@ -124,11 +144,22 @@ function GameNoWebcam({ song }) {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [currentTime, mapping, paused]);
+  }, [currentTime, mapping, paused, gameStarted]);
 
   // Ensure mapping is loaded before rendering
   if (!mapping.length) {
     return <div>Loading...</div>;
+  }
+
+  // Display countdown screen before starting the game
+  // Display the countdown screen before the game starts
+  if (!gameStarted) {
+    return (
+      <div className={styles.countdownContainer}>
+        <h5>Starting in {countdown}</h5>
+        <img className={styles.loadingGif} src="/assets/loadingMascot.gif" alt="Countdown" />
+      </div>
+    );
   }
 
   return (

@@ -4,7 +4,7 @@
   width: 400px; /* Adjust as needed */
   height: 600px; /* Adjust as needed */
   margin: 0 auto;
-  background-color: black;
+  background-color: #0F001A;
   overflow: hidden;
 }
 
@@ -53,4 +53,21 @@
 
 .score {
   width: 160px;
+}
+
+.countdownContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* Full viewport height */
+  height: 100vh;
+  background-color: #0F001A;
+  color: white;
+  font-size: 72px;
+}
+
+.loadingGif {
+  display: flex;
+  justify-content: center; 
 }
