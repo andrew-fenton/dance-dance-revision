@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
-const Webcam = dynamic(() => import('../components/Webcam.js'), { ssr: false });
+const Webcam = dynamic(() => import('../components/webcam.js'), { ssr: false });
 
 
 export default function Game() {

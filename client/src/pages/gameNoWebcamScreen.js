@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'; // Import useRouter
 import { useEffect, useState } from "react";
 import GameNoWebcam from "../components/GameNoWebcam";
-import WebcamVision from "../components/Webcam.js";
+import WebcamVision from "../components/webcam.js";
 import songs from '../data/songs'; // Import your songs data
 import styles from '@/styles/Game.module.css';
 
