@@ -3,6 +3,7 @@ import { Howl } from "howler";
 import styles from "../styles/GameNoWebcam.module.css";
 import GameCanvas from "./GameCanvas";
 import Score from "./Score";
+import Link from "next/link";
 
 function GameNoWebcam({ song, score, setScore, currentMovement}) {
   const [currentTime, setCurrentTime] = useState(0);
@@ -17,8 +18,11 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
   const [inputs, setInputs] = useState([]); // mainly for debugging
 
   // This is the countdown for the game starting
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
+
+  // Ending screen
+  const [gameEnded, setGameEnded] = useState(false);
 
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
@@ -57,16 +61,21 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
     const sound = new Howl({
       src: [song.file],
       html5: true,
+      onend: () => {
+        setGameEnded(true);
+      }
     });
 
     soundRef.current = sound;
     sound.play();
 
-    gameInterval.current = setInterval(() => {
-      if (!paused) {
-        setCurrentTime(sound.seek());
-      }
-    }, 50);
+    if (gameStarted && !gameEnded) {
+      gameInterval.current = setInterval(() => {
+        if (!paused) {
+          setCurrentTime(sound.seek());
+        }
+      }, 50);
+    }
 
     return () => {
       clearInterval(gameInterval.current);
@@ -84,8 +93,8 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
       return;
     }
 
-    if (paused || !gameStarted) {
-      // Ignore other key presses when paused
+    if (paused || !gameStarted || gameEnded) {
+      // Ignore other key presses when paused or game started or game ended
       return;
     }
 
@@ -230,6 +239,15 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
 
         {/* Pause overlay */}
         {paused && <div className={styles.pauseOverlay}>Paused</div>}
+
+         {/* Ending screen overlay */}
+        <div className={`${styles.endingScreen} ${gameEnded ? styles.visible : ''}`}>
+          <h1>Great job!</h1>
+          <p>Your Score: {score}</p>
+
+          <Link className={styles.backLink} href="/select">Back to Song Select</Link>
+          <img className={styles.endingGif} src="/assets/mascotWobble.gif" alt="Ending gif" />
+        </div>
       </div>
     </>
   );

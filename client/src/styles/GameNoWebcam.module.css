@@ -71,3 +71,35 @@
   display: flex;
   justify-content: center; 
 }
+
+.endingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 2s;
+  z-index: 10;
+}
+
+.endingScreen.visible {
+  opacity: 1;
+}
+
+.endingGift {
+  max-width: 200px;
+}
+
+.backLink {
+  color: #FF007F;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
