@@ -64,6 +64,7 @@ export default function Home() {
       >
         <h1 className={styles.title}>Dance Dance Revolution</h1>
         <p className={styles.instruction}>Press Enter to Begin</p>
+        <img className={styles.sleepGif} src="/assets/sleepNote.gif" alt="sleeping gif" />
       </div>
     </>
   );
