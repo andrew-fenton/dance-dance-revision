@@ -1,0 +1,14 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.webcamContainer {
+  margin-right: "160px";
+}
