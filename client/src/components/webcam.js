@@ -73,12 +73,14 @@ function WebcamVision({ setCurrentMovement }) {
         lastVideoTime = video.currentTime;
       }
     }
-    setTimeout(() => requestAnimationFrame(renderLoop), 500);
+    //setTimeout(() => requestAnimationFrame(renderLoop), 0);
+    requestAnimationFrame(renderLoop);
   };
   
   return (
     <>
       <Webcam ref={webcamRef} height={300} width={400} mirrored={true} style={{ marginRight: "150px"}}/>
+
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 
 function GameCanvas({ song, mapping, currentTime, currentMovement, setScore}) {
   const canvasRef = useRef(null);
@@ -12,64 +12,96 @@ function GameCanvas({ song, mapping, currentTime, currentMovement, setScore}) {
     "DOWN": 3,
   }
 
+  const arrows = useMemo(() => ["left", "up", "down", "right"], []);
+
+  // Preload images
+  const loadImages = useCallback(async () => {
+    const imagePromises = arrows.map((arrow) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          imagesRef.current[arrow] = img;
+          resolve(img);
+        };
+        img.onerror = reject;
+        img.src = `/arrows/${arrow}.png`;
+      });
+    });
+
+    await Promise.all(imagePromises);
+  }, [arrows]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const arrows = ["left", "up", "down", "right"];
 
-    // Load images
-    const loadImages = async () => {
-      for (const arrow of arrows) {
-        const img = new Image();
-        img.src = `/arrows/${arrow}.png`;
-        await new Promise((resolve) => {
-          img.onload = resolve;
-        });
-        imagesRef.current[arrow] = img;
+    const imageLoadPromise = loadImages();
+    const draw = () => {
+      // Clear only the area that changes
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Configuration constants
+      const DURATION = 5; // Time it takes for arrow to move from bottom to top
+      const ARROW_WIDTH = 50;
+      const ARROW_HEIGHT = 50;
+      const LANE_WIDTH = 60;
+      const PADDING = 20;
+      const MISS_THRESHOLD = -0.5;
+
+      // Optimize mapping iteration
+      for (const m of mapping) {
+        if (m.hit) continue; // Skip hit arrows
+
+        const timeDifference = m.time - currentTime;
+        
+        // Early continue for arrows outside visible range
+        if (timeDifference < MISS_THRESHOLD || timeDifference > DURATION) continue;
+
+        // Calculate arrow position with smoother interpolation
+        const progress = 1 - (timeDifference / DURATION);
+
+        if (progress > 0.95 && currentMovement[MOVEMENT_IDX_MAP[m.action]]) {
+          m.hit = true;
+          setScore((prevScore) => prevScore + 10);
+        }
+      
+        const position = progress * (canvas.height - 100);
+
+        // Find image and lane index
+        const arrowAction = m.action.toLowerCase();
+        const img = imagesRef.current[arrowAction];
+        
+        // Ensure image is loaded before drawing
+        if (!img) continue;
+
+        const laneIndex = arrows.indexOf(arrowAction);
+        
+        // Draw arrow with optimized positioning
+        ctx.drawImage(
+          img,
+          laneIndex * LANE_WIDTH + PADDING,
+          position,
+          ARROW_WIDTH,
+          ARROW_HEIGHT
+        );
       }
+
+      // Continue animation
+      animationRef.current = requestAnimationFrame(draw);
     };
 
-    loadImages().then(() => {
-      const draw = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Calculate and draw arrows
-        const duration = 5; // Time it takes for arrow to move from bottom to top
-        mapping.forEach((m) => {
-          if (m.hit) return; // Skip hit arrows
-
-          const timeDifference = m.time - currentTime;
-          if (timeDifference < -0.5 || timeDifference > duration) return;
-
-          const percentComplete = ((duration - timeDifference) / duration);
-          if (percentComplete > 0.95 && currentMovement[MOVEMENT_IDX_MAP[m.action]] && !m.hit) {
-            m.hit = true;
-            setScore((prevScore) => prevScore + 10);
-          }
-
-          const position = percentComplete * (canvas.height - 100);
-
-          const img = imagesRef.current[m.action.toLowerCase()];
-          const index = arrows.indexOf(m.action.toLowerCase());
-          ctx.drawImage(
-            img,
-            index * 60 + 20,
-            position,
-            50,
-            50 // Adjust positions and sizes as needed
-          );
-        });
-
-        animationRef.current = requestAnimationFrame(draw);
-      };
-
+    // Ensure images are loaded before starting animation
+    imageLoadPromise.then(() => {
       draw();
     });
 
+    // Cleanup function
     return () => {
-      cancelAnimationFrame(animationRef.current);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
-  }, [mapping, currentTime]);
+  }, [mapping, currentTime, loadImages]);
 
   return <canvas ref={canvasRef} width={400} height={600} />;
 }
