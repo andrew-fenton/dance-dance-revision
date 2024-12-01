@@ -1,14 +1,39 @@
-.mainContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.mainScreenContainer {
+  padding: 3%;
+  padding-left: 15%;
 }
 
-.contentContainer {
+.sideBySideContainer {
   display: flex;
-  justify-content: center;
+  gap: 20px; /* Space between the two components */
+  align-items: flex-start; /* Align them at the top */
+}
+
+.outerGameContainer {
+  flex: 0 0 auto; /* Prevent stretching, size based on content */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Correct 'left' to 'flex-start' */
+  justify-content: flex-start; /* Correct 'left' to 'flex-start' */
+  border-right: 2px solid #FF007F;
 }
 
 .webcamContainer {
-  margin-right: "160px";
+  flex: 0 0 auto; /* Prevent stretching, size based on content */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Correct 'left' to 'flex-start' */
+  justify-content: flex-start; /* Correct 'left' to 'flex-start' */
+  align-items: center;
+  margin-left: 15%;
+}
+
+.webcam {
+  border: 2px solid #FF007F; /* Optional: Add a border for clarity */
+  border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+.discoFish {
+  max-width: 250px;
+  margin-bottom: 100px;
 }

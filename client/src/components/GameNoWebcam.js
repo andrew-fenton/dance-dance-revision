@@ -173,7 +173,7 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
   if (!gameStarted) {
     return (
       <div className={styles.countdownContainer}>
-        <h5>Starting in {countdown}</h5>
+        <h5 className={styles.countDownText}>Starting in {countdown}</h5>
         <img className={styles.loadingGif} src="/assets/loadingMascot.gif" alt="Countdown" />
       </div>
     );
@@ -181,6 +181,32 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
 
   return (
     <>
+    <div className={styles.mainContainer}>
+        {/* Other components like Score */}
+        <Score score={score} />
+        {/* <div className={styles.inputsList}>
+          <h3>Inputs:</h3>
+          <ul>
+            {inputs.map((input, index) => (
+              <li key={index}>
+                {input.time} - {input.action}
+              </li>
+            ))}
+          </ul>
+        </div> */}
+
+        {/* Pause overlay */}
+        {/* {paused && <div className={styles.pauseOverlay}>Paused</div>} */}
+
+         {/* Ending screen overlay */}
+        <div className={`${styles.endingScreen} ${gameEnded ? styles.visible : ''}`}>
+          <h1>Great job!</h1>
+          <p>Your Score: {score}</p>
+
+          <Link className={styles.backLink} href="/select">Back to Song Select</Link>
+          <img className={styles.endingGif} src="/assets/mascotWobble.gif" alt="Ending gif" />
+        </div>
+      </div>
       <div className={styles.gameContainer}>
         {/* Arrow outlines at the top */}
               {/* Display the inputs list */}
@@ -229,33 +255,6 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
             currentMovement={currentMovement}
             setScore={setScore}
           />
-        </div>
-      </div>
-
-      <div>
-        {/* Other components like Score */}
-        <Score score={score} />
-        <div className={styles.inputsList}>
-          <h3>Inputs:</h3>
-          <ul>
-            {inputs.map((input, index) => (
-              <li key={index}>
-                {input.time} - {input.action}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Pause overlay */}
-        {paused && <div className={styles.pauseOverlay}>Paused</div>}
-
-         {/* Ending screen overlay */}
-        <div className={`${styles.endingScreen} ${gameEnded ? styles.visible : ''}`}>
-          <h1>Great job!</h1>
-          <p>Your Score: {score}</p>
-
-          <Link className={styles.backLink} href="/select">Back to Song Select</Link>
-          <img className={styles.endingGif} src="/assets/mascotWobble.gif" alt="Ending gif" />
         </div>
       </div>
     </>

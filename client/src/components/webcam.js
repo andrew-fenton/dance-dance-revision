@@ -79,7 +79,7 @@ function WebcamVision({ setCurrentMovement }) {
   
   return (
     <>
-      <Webcam ref={webcamRef} height={300} width={400} mirrored={true} style={{ marginRight: "150px"}}/>
+      <Webcam ref={webcamRef} height={300} width={400} mirrored={true} />
 
     </>
   );

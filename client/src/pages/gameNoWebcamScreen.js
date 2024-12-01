@@ -32,19 +32,29 @@ const GameNoWebcamScreen = () => {
     }
 
     return (
-        <div>
-            <h1>Now Playing: {songData.title}</h1>
-            <div className={styles.contentContainer}>
-              <GameNoWebcam song={songData} setScore={setScore} score={score} currentMovement={currentMovement} />
+        <div className={styles.mainScreenContainer}>
+          <h1 className={styles.title}>{songData.title}</h1>
+          <div className={styles.sideBySideContainer}>
+            <div className={styles.outerGameContainer}>
+              <GameNoWebcam
+                song={songData}
+                setScore={setScore}
+                score={score}
+                currentMovement={currentMovement}
+              />
             </div>
-            <div className={styles.contentContainer}>
+            <div className={styles.webcamContainer}>
+            <img src='/assets/DISCO-FISH.gif' alt='Disco Fish' className={styles.discoFish} />
+            <div className={styles.webcam}>
               <WebcamVision
-                className={styles.webcamContainer}
                 setCurrentMovement={setCurrentMovement}
               />
             </div>
+            </div>
+          </div>
         </div>
-    );
+      );
+      
 
 };
 

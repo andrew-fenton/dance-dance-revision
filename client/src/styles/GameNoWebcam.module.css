@@ -1,9 +1,17 @@
 /* styles/GameNoWebcam.module.css */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: left; /* Center horizontally */
+  justify-content: flex-start; /* Align items to the top */
+  background-color: #0F001A;
+}
+
 .gameContainer {
   position: relative;
   width: 400px; /* Adjust as needed */
   height: 600px; /* Adjust as needed */
-  margin: 0 auto;
+  margin: 0;
   background-color: #0F001A;
   overflow: hidden;
 }
@@ -59,17 +67,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100vw; /* Full viewport height */
+  align-items: left;
+  width: 400px;
   height: 100vh;
   background-color: #0F001A;
   color: white;
-  font-size: 72px;
+  padding: 0px 20px;
+}
+
+.countDownText {
+  font-size: 25px;
+  margin-right: 25px;
 }
 
 .loadingGif {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
+  max-width: 200px;
 }
 
 .endingScreen {
@@ -78,7 +92,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+  background-color: rgba(0, 0, 0, 1); /* Semi-transparent black */
   color: #fff;
   display: flex;
   flex-direction: column;

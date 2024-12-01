@@ -16,7 +16,7 @@
   left: 20px;
   font-size: 2rem;
   font-weight: bold;
-  margin: 0;
+  margin: 20px;
 }
 
 .slider {
@@ -64,7 +64,7 @@
   position: absolute;
   display: flex;
   justify-content: center;
-  bottom: -20%; /* Anchor at the bottom */
+  bottom: 0; /* Anchor at the bottom */
   max-height: 400px; /* Specify desired visible height */
   object-fit: cover; /* Ensure image fills the container */
   overflow: hidden;
