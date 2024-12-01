@@ -5,4 +5,4 @@ Dance-Dance ReVision brings you the classic Dance-Dance Revolution arcade rhythm
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/4c748fe7-793c-4267-b67e-204a0cf28590">
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/06316c03-be06-4211-91cc-7b2c7d34f3ff">
 
-*Note: Checked in with MLH at Help Desk if we were able to add screenshots after submission deadline (no code changes, purely just pictures added to the readME) and got the 👍 of approval.
+*Note: Checked in with MLH at Help Desk if we were able to add screenshots after submission deadline (we had no code changes, purely just pictures added to the readME) and got the 👍 of approval. We submitted our project on DoraHacks early and haven't made any code changes since then!
