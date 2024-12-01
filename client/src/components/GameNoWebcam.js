@@ -27,6 +27,15 @@ function GameNoWebcam({ song, score, setScore, currentMovement}) {
   const gameInterval = useRef(null);
   const soundRef = useRef(null);
 
+  useEffect(() => {
+    setActiveArrows({
+      left: currentMovement[0],
+      right: currentMovement[1],
+      up: currentMovement[2],
+      down: currentMovement[3],
+    });
+  }, [currentMovement]);
+
   // Load the mapping data for the selected song
   useEffect(() => {
     async function loadMapping() {
