@@ -50,3 +50,7 @@
     bottom: calc(100% + 100px); /* Move past the top */
   }
 }
+
+.score {
+  width: 160px;
+}
