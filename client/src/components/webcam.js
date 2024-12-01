@@ -62,7 +62,7 @@ function WebcamVision({ setCurrentMovement }) {
             //  });
               const movementArr = detectPose(landmarks);
               setCurrentMovement(movementArr);
-              console.log("[L, R, U, D]:", movementArr);
+              //console.log("[L, R, U, D]:", movementArr);
             });
             //console.log(results.landmarks);
           } 

@@ -12,7 +12,7 @@ const GameNoWebcamScreen = () => {
 
     // [left, right, up, down]
     const [currentMovement, setCurrentMovement] = useState([false, false, false, false]);
-
+    
     useEffect(() => {
         // Ensure songId is available (router.query may be undefined initially)
         if (songId) {
