@@ -26,6 +26,13 @@
   animation: flash 4s infinite;
 }
 
+.sleepGif {
+  position: absolute;
+  right: 3%;
+  bottom: 3%;
+  max-width: 250px;
+}
+
 @keyframes flash {
   0%, 100% {
     opacity: 0;

@@ -1,14 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
-import Arrow from './Arrow';
-import Score from './Score';
-import { Howl } from 'howler';
-import styles from '../styles/GameNoWebcam.module.css';
-import GameCanvas from './GameCanvas';
+import { useState, useEffect, useRef } from "react";
+import { Howl } from "howler";
+import styles from "../styles/GameNoWebcam.module.css";
+import GameCanvas from "./GameCanvas";
+import Score from "./Score";
 
 function GameNoWebcam({ song, score, setScore, currentMovement }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [mapping, setMapping] = useState([]);
   const [paused, setPaused] = useState(false);
+  const [activeArrows, setActiveArrows] = useState({
+    left: false,
+    up: false,
+    down: false,
+    right: false,
+  });
   const [inputs, setInputs] = useState([]); // mainly for debugging
 
   const gameInterval = useRef(null);
@@ -53,7 +58,7 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
   const handleKeyPress = (event) => {
     const key = event.key.toUpperCase();
 
-    if (key === ' ') {
+    if (key === " ") {
       // Spacebar toggles pause
       setPaused((prevPaused) => !prevPaused);
       return;
@@ -65,11 +70,11 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
     }
 
     // Map keys to actions
-    let action = '';
-    if (key === 'ARROWLEFT' || key === 'A') action = 'LEFT';
-    else if (key === 'ARROWUP' || key === 'W') action = 'UP';
-    else if (key === 'ARROWDOWN' || key === 'S') action = 'DOWN';
-    else if (key === 'ARROWRIGHT' || key === 'D') action = 'RIGHT';
+    let action = "";
+    if (key === "ARROWLEFT" || key === "A") action = "left";
+    else if (key === "ARROWUP" || key === "W") action = "up";
+    else if (key === "ARROWDOWN" || key === "S") action = "down";
+    else if (key === "ARROWRIGHT" || key === "D") action = "right";
     else return; // Ignore other keys
 
     // //Record the input
@@ -84,13 +89,31 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
       "UP": 2,
       "DOWN": 3,
     }
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      { time: currentTime.toFixed(2), action },
+    ]);
+
+    // Activate the corresponding arrow image
+    setActiveArrows((prevArrows) => ({
+      ...prevArrows,
+      [action]: true,
+    }));
+
+    // Deactivate the arrow after a short delay
+    setTimeout(() => {
+      setActiveArrows((prevArrows) => ({
+        ...prevArrows,
+        [action]: false,
+      }));
+    }, 200); // Adjust delay as needed
 
     // Check for matching mapping
     const buffer = 0.5; // Adjust as needed
     const matchedIndex = mapping.findIndex(
       (m) =>
         Math.abs(m.time - currentTime) < buffer &&
-        m.action === action &&
+        m.action.toLowerCase() === action &&
         !m.hit // Ensure the mapping hasn't been matched yet
     );
 
@@ -107,9 +130,9 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
 
   // Add event listener for key presses
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, [currentTime, mapping, paused]);
 
@@ -120,14 +143,44 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
 
   return (
     <>
-    <div className={styles.gameContainer}>
-      {/* Arrow outlines at the top */}
-      <div className={styles.arrowOutlines}>
-        <img src="/arrows/outline-left.png" alt="Left Outline" />
-        <img src="/arrows/outline-up.png" alt="Up Outline" />
-        <img src="/arrows/outline-down.png" alt="Down Outline" />
-        <img src="/arrows/outline-right.png" alt="Right Outline" />
-      </div>
+      <div className={styles.gameContainer}>
+        {/* Arrow outlines at the top */}
+              {/* Display the inputs list */}
+        
+        <div className={styles.arrowOutlines}>
+          <img
+            src={
+              activeArrows.left
+                ? "/arrows/active-left.png"
+                : "/arrows/outline-left.png"
+            }
+            alt="Left Outline"
+          />
+          <img
+            src={
+              activeArrows.up
+                ? "/arrows/active-up.png"
+                : "/arrows/outline-up.png"
+            }
+            alt="Up Outline"
+          />
+          <img
+            src={
+              activeArrows.down
+                ? "/arrows/active-down.png"
+                : "/arrows/outline-down.png"
+            }
+            alt="Down Outline"
+          />
+          <img
+            src={
+              activeArrows.right
+                ? "/arrows/active-right.png"
+                : "/arrows/outline-right.png"
+            }
+            alt="Right Outline"
+          />
+        </div>
 
       {/* Render arrows */}
       <div>
@@ -137,35 +190,26 @@ function GameNoWebcam({ song, score, setScore, currentMovement }) {
           <Arrow
             key={index}
             action={m.action}
-            time={m.time}
-            currentTime={currentTime}
-          />
-        ))}
-      </div> */}
-    </div>
-  </div>
+            time={m.time}*/}
+      </div>
 
+      <div>
+        {/* Other components like Score */}
+        <Score score={score} />
+        <div className={styles.inputsList}>
+          <h3>Inputs:</h3>
+          <ul>
+            {inputs.map((input, index) => (
+              <li key={index}>
+                {input.time} - {input.action}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-    <div>
-    
-
-      {/* Other components like Score, Inputs, etc. */}
-      <Score score={score} />
-      {/* <p>Current Time: {currentTime.toFixed(2)}</p> */}
-      {/* Display the inputs list */}
-      {/* <div className={styles.inputsList}>
-        <h3>Inputs:</h3>
-        <ul>
-          {inputs.map((input, index) => (
-            <li key={index}>
-              {input.time} - {input.action}
-            </li>
-          ))}
-        </ul>
-      </div> */}
-      {/* Pause overlay */}
-      {paused && <div className={styles.pauseOverlay}>Paused</div>}
-    </div>
+        {/* Pause overlay */}
+        {paused && <div className={styles.pauseOverlay}>Paused</div>}
+      </div>
     </>
   );
 }

@@ -1,6 +1,4 @@
-// components/GameCanvas.js
-import { useEffect, useRef } from 'react';
-import { Howl } from 'howler';
+import { useEffect, useRef } from "react";
 
 function GameCanvas({ song, mapping, currentTime, currentMovement, setScore }) {
   const canvasRef = useRef(null);
@@ -9,8 +7,8 @@ function GameCanvas({ song, mapping, currentTime, currentMovement, setScore }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const arrows = ['left', 'up', 'down', 'right'];
+    const ctx = canvas.getContext("2d");
+    const arrows = ["left", "up", "down", "right"];
 
     // Load images
     const loadImages = async () => {
@@ -28,18 +26,6 @@ function GameCanvas({ song, mapping, currentTime, currentMovement, setScore }) {
       const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw arrow outlines at the top
-        // arrows.forEach((arrow, index) => {
-        //   const img = imagesRef.current[arrow];
-        //   ctx.drawImage(
-        //     img,
-        //     index * 60 + 20,
-        //     20,
-        //     50,
-        //     50 // Adjust positions and sizes as needed
-        //   );
-        // });
-
         // Calculate and draw arrows
         const MOVEMENT_IDX_MAP = {
           "LEFT": 0,
@@ -49,6 +35,8 @@ function GameCanvas({ song, mapping, currentTime, currentMovement, setScore }) {
         }
         const duration = 5; // Time it takes for arrow to move from bottom to top
         mapping.forEach((m) => {
+          if (m.hit) return; // Skip hit arrows
+
           const timeDifference = m.time - currentTime;
           if (timeDifference < -0.5 || timeDifference > duration) return;
           
@@ -59,7 +47,6 @@ function GameCanvas({ song, mapping, currentTime, currentMovement, setScore }) {
           }
 
           const position = percentComplete * (canvas.height - 100);
-
 
           const img = imagesRef.current[m.action.toLowerCase()];
           const index = arrows.indexOf(m.action.toLowerCase());
