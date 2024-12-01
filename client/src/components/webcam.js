@@ -73,7 +73,7 @@ function WebcamVision({ setCurrentMovement }) {
         lastVideoTime = video.currentTime;
       }
     }
-    setTimeout(() => requestAnimationFrame(renderLoop), 800);
+    setTimeout(() => requestAnimationFrame(renderLoop), 400);
   };
   
   return (
